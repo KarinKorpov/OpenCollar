@@ -4,7 +4,7 @@
 // Garvin Twine et al.                           
 // Licensed under the GPLv2.  See LICENSE for full details. 
 
-string g_sAppVersion = "¹⋅¹";
+string g_sAppVersion = "1⋅31";
 
 string g_sParentMenu = "RLV";
 
@@ -16,23 +16,32 @@ list g_lRLVcmds=[ //4 strided list of menuname,command,prettyname,description
     "rlvtp_","tplm","Landmark","Teleport via Landmark",
     "rlvtp_","tploc","Slurl","Teleport via Slurl/Map",
     "rlvtp_","tplure","Lure","Teleport via offers",
+    "rlvtp_","tplocal","Local","Local teleports",
+    "rlvtp_","accepttp_sec","Accepttp","Force TP by owner",
     "rlvtp_","showworldmap","Map","View World-map",
     "rlvtp_","showminimap","Mini-map","View Mini-map",
     "rlvtp_","showloc","Location","See current location",
+    "rlvtp_","tprequest","Requests","Teleport request at friend",
+    "rlvtp_","shownearby","Nearby","Show nearby",
     "rlvtalk_","sendchat","Chat","Ability to Chat",
     "rlvtalk_","chatshout","Shout","Ability to Shout",
     "rlvtalk_","chatnormal","Whisper","Forced to Whisper",
     "rlvtalk_","startim","Start IMs","Initiate IM Sessions",
+    "rlvtalk_","startim:20","Start IM20","Start IM's >20mtr",
     "rlvtalk_","sendim","Send IMs","Respond to IMs",
     "rlvtalk_","recvim","Get IMs","Receive IMs",
     "rlvtalk_","recvchat","See Chat","Receive Chat",
     "rlvtalk_","recvemote","See Emote","Receive Emotes",
     "rlvtalk_","emote","Emote","Short Emotes if Chat blocked",
+    "rlvtalk_","sendchannel","Channel","Talk to Channels",
+    "rlvtouch_","touchhud","Hud","Touch on HUDs",
     "rlvtouch_","fartouch","Far","Touch objects >1.5m away",
     "rlvtouch_","touchworld","World","Touch in-world objects",
     "rlvtouch_","touchattach","Self","Touch your attachments",
-    "rlvtouch_","touchattachother","Others","Touch others' attachments",
+    "rlvtouch_","touchattachother","Others","Touch others attachments", 
+    "rlvtouch_","interact","Interact","World interaction",
     "rlvmisc_","shownames","Names","See Avatar Names",
+    "rlvmisc_","shownametags","NameTags","See Avatar NameTags",
     "rlvmisc_","fly","Fly","Ability to Fly",
     "rlvmisc_","edit","Edit","Edit Objects",
     "rlvmisc_","rez","Rez","Rez Objects",
@@ -40,10 +49,24 @@ list g_lRLVcmds=[ //4 strided list of menuname,command,prettyname,description
     "rlvmisc_","viewnote","Notecards","View Notecards",
     "rlvmisc_","viewscript","Scripts","View Scripts",
     "rlvmisc_","viewtexture","Textures","View Textures",
-    "rlvmisc_","showhovertextworld","Hovertext","See hovertext like titles",
+    "rlvmisc_","showhovertextworld","Hovertext","See hovertext",
+    "rlvmisc2_","sendgesture","Gestures","Using gestures", 
+    "rlvmisc2_","allowidle","AFK","Automatic Away",
+    "rlvmisc2_","sharedwear","Shared","Can be worn from #RLV",
+    "rlvmisc2_","sharedunwear","Sharedun","Can be removed from #RLV",
+    "rlvmisc2_","unsharedwear","Unshared","Can be worn outside #RLV",
+    "rlvmisc2_","unsharedunwear","Unsharedun","Can be removed outside #RLV",
+    "rlvmisc2_","setenv","Setenv","Change environment",
+    "rlvmisc2_","setgroup","Group","Change group",
+    "rlvsit_","sittp","SitTP","Cannot sit, >1.5 m", 
+    "rlvsit_","unsit","Stand","Standing up",
+    "rlvsit_","sit","Sit","Sitting down",
+    "rlvview_","camdistmax:10","DistanceM","Distance of AV (10mtr)",
     "rlvview_","camdistmax:0","Mouselook","Leave Mouselook",
-    "rlvview_","camunlock","Alt Zoom","Alt zoom/pan around",
-    "rlvview_","camdrawalphamax:1","See","See anything at all"
+    "rlvview_","camunlock","Camlock","Locks the camera origin to the user's avatar",
+    "rlvview_","camtextures","Gextures","Grey textures",
+    "rlvview_","camdrawalphamax:1","See","See anything at all",
+    "rlvview_","showself","ShowSelf","Hides the user's avatar and all their attachments"
 ];
 
 list g_lMenuHelpMap = [
@@ -52,6 +75,8 @@ list g_lMenuHelpMap = [
     "rlvtalk_","Talk",
     "rlvtouch_","Touch",
     "rlvmisc_","Misc",
+    "rlvmisc2_","Misc2",
+    "rlvsit_","Sit",
     "rlvview_","View"
 ];
 
@@ -136,7 +161,7 @@ Notify(key kID, string sMsg, integer iAlsoNotifyWearer) {
 }
 
 StuffMenu(key kID, integer iAuth) {
-    Dialog(kID, "\n[Legacy RLV Stuff]\t"+g_sAppVersion, ["Misc","Touch","Talk","Travel","View"], [UPMENU], 0, iAuth, "rlvstuff");
+    Dialog(kID, "\n[Legacy RLV Stuff]\t"+g_sAppVersion, ["Misc","Misc2", "Touch","Talk","Travel","View", "Sit"], [UPMENU], 0, iAuth, "rlvstuff");
 }
 
 Menu(key kID, integer iAuth, string sMenuName) {
@@ -282,7 +307,9 @@ UserCommand(integer iNum, string sStr, key kID, string fromMenu) {
     else if (sStrLower == "rlvtalk" || sStrLower == "menu talk") Menu(kID, iNum, "rlvtalk_");
     else if (sStrLower == "rlvtouch" || sStrLower == "menu touch") Menu(kID, iNum, "rlvtouch_");
     else if (sStrLower == "rlvmisc" || sStrLower == "menu misc") Menu(kID, iNum, "rlvmisc_");
+    else if (sStrLower == "rlvmisc2" || sStrLower == "menu misc2") Menu(kID, iNum, "rlvmisc2_");
     else if (sStrLower == "rlvview" || sStrLower == "menu view") Menu(kID, iNum, "rlvview_");
+    else if (sStrLower == "rlvsit" || sStrLower == "menu sit") Menu(kID, iNum, "rlvsit_");
     else if (sStrLower == "rlvstuff" || sStrLower == "menu stuff") StuffMenu(kID, iNum);
     else {
         //do simple pass through for chat commands
