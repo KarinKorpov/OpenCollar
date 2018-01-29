@@ -7,9 +7,9 @@
 //menu setup
 string  RESTRICTION_BUTTON          = "Restrictions"; // Name of the submenu
 string  RESTRICTIONS_CHAT_COMMAND   = "restrictions";
-string  TERMINAL_BUTTON             = "Terminal";   //rlv command terminal button for TextBox
-string  TERMINAL_CHAT_COMMAND       = "terminal";
-string  OUTFITS_BUTTON              = "Outfits";
+//string  TERMINAL_BUTTON             = "Terminal";   //rlv command terminal button for TextBox
+//string  TERMINAL_CHAT_COMMAND       = "terminal";
+//string  OUTFITS_BUTTON              = "Outfits";
 string  COLLAR_PARENT_MENU          = "RLV";
 string  UPMENU                      = "BACK";
 string  BACKMENU                    = "⏎";
@@ -361,9 +361,11 @@ UserCommand(integer iNum, string sStr, key kID, integer bFromMenu) {
     }
     //restrictions command handling
     if (iNum==CMD_WEARER) {
-        if (sStr == RESTRICTIONS_CHAT_COMMAND || sLowerStr == "sit" || sLowerStr == TERMINAL_CHAT_COMMAND) {
+        if (sStr == RESTRICTIONS_CHAT_COMMAND || sLowerStr == "sit") {
+//        if (sStr == RESTRICTIONS_CHAT_COMMAND || sLowerStr == "sit" || sLowerStr == TERMINAL_CHAT_COMMAND) {
             llMessageLinked(LINK_DIALOG,NOTIFY,"1%NOACCESS%",kID);
-        } else if (sLowerStr == "menu force sit" || sStr == "menu " + RESTRICTION_BUTTON || sStr == "menu " + TERMINAL_BUTTON){
+        } else if (sLowerStr == "menu force sit" || sStr == "menu " + RESTRICTION_BUTTON){
+//        } else if (sLowerStr == "menu force sit" || sStr == "menu " + RESTRICTION_BUTTON || sStr == "menu " + TERMINAL_BUTTON){
             llMessageLinked(LINK_DIALOG,NOTIFY,"1%NOACCESS%",kID);
             llMessageLinked(LINK_RLV, iNum, "menu " + COLLAR_PARENT_MENU, kID);
         }
@@ -371,11 +373,12 @@ UserCommand(integer iNum, string sStr, key kID, integer bFromMenu) {
     } else if (sStr == RESTRICTIONS_CHAT_COMMAND || sStr == "menu " + RESTRICTION_BUTTON) {
         RestrictionsMenu(kID, iNum);
         return;
-    } else if (sStr == TERMINAL_CHAT_COMMAND || sStr == "menu " + TERMINAL_BUTTON) {
-        if (sStr == TERMINAL_CHAT_COMMAND) g_iMenuCommand = FALSE;
-        else g_iMenuCommand = TRUE;
-        Dialog(kID, g_sTerminalText, [], [], 0, iNum, "terminal");
-        return;
+
+//    } else if (sStr == TERMINAL_CHAT_COMMAND || sStr == "menu " + TERMINAL_BUTTON) {
+//        if (sStr == TERMINAL_CHAT_COMMAND) g_iMenuCommand = FALSE;
+//        else g_iMenuCommand = TRUE;
+//        Dialog(kID, g_sTerminalText, [], [], 0, iNum, "terminal");
+//        return;
     } else if (sLowerStr == "restrictions back") {
         llMessageLinked(LINK_RLV, iNum, "menu " + COLLAR_PARENT_MENU, kID);
         return;
@@ -614,9 +617,9 @@ default {
         if (iNum == MENUNAME_REQUEST && sStr == COLLAR_PARENT_MENU) {
             llMessageLinked(iSender, MENUNAME_RESPONSE, COLLAR_PARENT_MENU + "|" + RESTRICTION_BUTTON, "");
             llMessageLinked(iSender, MENUNAME_RESPONSE, COLLAR_PARENT_MENU + "|Force Sit", "");
-            llMessageLinked(iSender, MENUNAME_RESPONSE, COLLAR_PARENT_MENU + "|" + TERMINAL_BUTTON, "");
-            llMessageLinked(iSender, MENUNAME_RESPONSE, COLLAR_PARENT_MENU + "|" + OUTFITS_BUTTON, "");
-            llMessageLinked(iSender, MENUNAME_RESPONSE, COLLAR_PARENT_MENU + "|Detach", "");
+//            llMessageLinked(iSender, MENUNAME_RESPONSE, COLLAR_PARENT_MENU + "|" + TERMINAL_BUTTON, ""); Removed!
+//            llMessageLinked(iSender, MENUNAME_RESPONSE, COLLAR_PARENT_MENU + "|" + OUTFITS_BUTTON, "");
+//            llMessageLinked(iSender, MENUNAME_RESPONSE, COLLAR_PARENT_MENU + "|Detach", "");
         } else if (iNum == LM_SETTING_EMPTY) {
             if (sStr=="restrictions_send")         g_iSendRestricted=FALSE;
             else if (sStr=="restrictions_read")    g_iReadRestricted=FALSE;
