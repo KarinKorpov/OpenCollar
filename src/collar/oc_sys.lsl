@@ -217,8 +217,8 @@ HelpMenu(key kID, integer iAuth) {
 
 MainMenu(key kID, integer iAuth) {
     string sPrompt = "\nOpenCollar\t\t"+g_sCollarVersion;
-    sPrompt += "\n\n[secondlife:///app/group/319e5856-13db-d5d8-0655-9f577a9e29dc/about KCR] and ";
-    sPrompt += "[secondlife:///app/group/45d71cc1-17fc-8ee4-8799-7164ee264811/about OpenCollar]";
+    sPrompt += "\n\n[secondlife:///app/group/45d71cc1-17fc-8ee4-8799-7164ee264811/about OpenCollar] and ";
+    sPrompt += "[secondlife:///app/group/319e5856-13db-d5d8-0655-9f577a9e29dc/about KCR]";
     if(!g_iLatestVersion) sPrompt+="\n\nUPDATE AVAILABLE: A new patch has been released.\nPlease install at your earliest convenience. Thanks!";
     //Debug("max memory used: "+(string)llGetSPMaxMemory());
     list lStaticButtons=["Apps"];
@@ -419,13 +419,6 @@ BuildLockElementList() {//EB
 }
 
 PermsCheck() {
-    if (!(llGetObjectPermMask(MASK_OWNER) & PERM_MODIFY)) {
-        llOwnerSay("You have been given a no-modify OpenCollar object.  This could break future updates.  Please ask the provider to make the object modifiable.");
-    }
-
-    if (!(llGetObjectPermMask(MASK_NEXT) & PERM_MODIFY)) {
-        llOwnerSay("You have put an OpenCollar script into an object that the next user cannot modify.  This could break future updates.  Please leave your OpenCollar objects modifiable.");
-    }
 
     integer FULL_PERMS = PERM_COPY | PERM_MODIFY | PERM_TRANSFER;
 
@@ -441,6 +434,14 @@ PermsCheck() {
             if (!((llGetInventoryPermMask(sScript,MASK_NEXT) & FULL_PERMS) == FULL_PERMS)) {
                     llOwnerSay("You have removed mod/copy/trans permissions for the next owner of the " + sScript + " script.  This is a violation of the OpenCollar license.  Please make the script full perms again.");
             }
+            if (!(llGetObjectPermMask(MASK_OWNER) & PERM_MODIFY)) {
+                    llOwnerSay("You have been given a no-modify " + sScript + " OpenCollar object.  This could break future updates.  Please ask the provider to make the object modifiable.");
+            }
+
+            if (!(llGetObjectPermMask(MASK_NEXT) & PERM_MODIFY)) {
+                    llOwnerSay("You have put an OpenCollar " + sScript + " script into an object that the next user cannot modify.  This could break future updates.  Please leave your OpenCollar objects modifiable.");
+            }
+
         }
     }
 }
