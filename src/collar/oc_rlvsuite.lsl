@@ -362,10 +362,8 @@ UserCommand(integer iNum, string sStr, key kID, integer bFromMenu) {
     //restrictions command handling
     if (iNum==CMD_WEARER) {
         if (sStr == RESTRICTIONS_CHAT_COMMAND || sLowerStr == "sit") {
-//        if (sStr == RESTRICTIONS_CHAT_COMMAND || sLowerStr == "sit" || sLowerStr == TERMINAL_CHAT_COMMAND) {
             llMessageLinked(LINK_DIALOG,NOTIFY,"1%NOACCESS%",kID);
         } else if (sLowerStr == "menu force sit" || sStr == "menu " + RESTRICTION_BUTTON){
-//        } else if (sLowerStr == "menu force sit" || sStr == "menu " + RESTRICTION_BUTTON || sStr == "menu " + TERMINAL_BUTTON){
             llMessageLinked(LINK_DIALOG,NOTIFY,"1%NOACCESS%",kID);
             llMessageLinked(LINK_RLV, iNum, "menu " + COLLAR_PARENT_MENU, kID);
         }
@@ -373,7 +371,6 @@ UserCommand(integer iNum, string sStr, key kID, integer bFromMenu) {
     } else if (sStr == RESTRICTIONS_CHAT_COMMAND || sStr == "menu " + RESTRICTION_BUTTON) {
         RestrictionsMenu(kID, iNum);
         return;
-
 //    } else if (sStr == TERMINAL_CHAT_COMMAND || sStr == "menu " + TERMINAL_BUTTON) {
 //        if (sStr == TERMINAL_CHAT_COMMAND) g_iMenuCommand = FALSE;
 //        else g_iMenuCommand = TRUE;
@@ -617,7 +614,7 @@ default {
         if (iNum == MENUNAME_REQUEST && sStr == COLLAR_PARENT_MENU) {
             llMessageLinked(iSender, MENUNAME_RESPONSE, COLLAR_PARENT_MENU + "|" + RESTRICTION_BUTTON, "");
             llMessageLinked(iSender, MENUNAME_RESPONSE, COLLAR_PARENT_MENU + "|Force Sit", "");
-//            llMessageLinked(iSender, MENUNAME_RESPONSE, COLLAR_PARENT_MENU + "|" + TERMINAL_BUTTON, ""); Removed!
+//            llMessageLinked(iSender, MENUNAME_RESPONSE, COLLAR_PARENT_MENU + "|" + TERMINAL_BUTTON, "");
 //            llMessageLinked(iSender, MENUNAME_RESPONSE, COLLAR_PARENT_MENU + "|" + OUTFITS_BUTTON, "");
 //            llMessageLinked(iSender, MENUNAME_RESPONSE, COLLAR_PARENT_MENU + "|Detach", "");
         } else if (iNum == LM_SETTING_EMPTY) {
